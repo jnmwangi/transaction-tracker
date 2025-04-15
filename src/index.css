@@ -1,0 +1,6 @@
+@import "./node_modules/bootstrap/dist/css/bootstrap.css";
+
+body{
+  /* background-color: red; */
+  height: 100dvh;
+}

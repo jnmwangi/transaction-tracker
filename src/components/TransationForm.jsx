@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from './user.context';
 
 export const TransationForm = ({ onSave }) => {
 
@@ -23,12 +24,15 @@ export const TransationForm = ({ onSave }) => {
         setAmount(evt.target.value)
     } */
 
+  const [user] = useContext(UserContext)
+
     const [formData, setFormData] = useState({
         id: Math.random().toString(16).substring(2),
         date: (new Date()).toISOString().split("T")[0],
         description: "",
         category: "",
-        amount: 0.00
+        amount: 0.00,
+        user_id: user.id
     });
 
     function handlesChange(evt) {
@@ -49,7 +53,7 @@ export const TransationForm = ({ onSave }) => {
 
     return (
         <form className='d-flex flex-column flex-md-row gap-3 w-100' onSubmit={handleSubmit}>
-
+<span>{user.email}</span>
             <div className="form-group">
                 <input type="date" name="date" className="form-control" value={formData.date} onChange={handlesChange} />
             </div>

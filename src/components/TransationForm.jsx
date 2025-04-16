@@ -1,7 +1,15 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from './user.context';
+import React, { useEffect, useState } from 'react'
+// import { UserContext } from './user.context'
 
-export const TransationForm = ({ onSave }) => {
+const defaultFields = {
+    id: Math.random().toString(16).substring(2),
+    date: (new Date()).toISOString().split("T")[0],
+    description: "",
+    category: "",
+    amount: 0.00
+}
+
+export const TransationForm = ({ transaction, onSave }) => {
 
     /* const [date, setDate] = useState((new Date()).toISOString().split("T")[0]);
     const [description, setDescription] = useState("");
@@ -24,16 +32,13 @@ export const TransationForm = ({ onSave }) => {
         setAmount(evt.target.value)
     } */
 
-  const [user] = useContext(UserContext)
+    // const [user] = useContext(userContext)
 
-    const [formData, setFormData] = useState({
-        id: Math.random().toString(16).substring(2),
-        date: (new Date()).toISOString().split("T")[0],
-        description: "",
-        category: "",
-        amount: 0.00,
-        user_id: user.id
-    });
+    const [formData, setFormData] = useState(defaultFields)
+
+    useEffect(() => {
+        setFormData(transaction || defaultFields)
+    }, [transaction])
 
     function handlesChange(evt) {
 
@@ -49,17 +54,18 @@ export const TransationForm = ({ onSave }) => {
     function handleSubmit(evt) {
         evt.preventDefault();
         onSave(formData);
+        setFormData(defaultFields)
     }
 
     return (
         <form className='d-flex flex-column flex-md-row gap-3 w-100' onSubmit={handleSubmit}>
-<span>{user.email}</span>
-            <div className="form-group">
-                <input type="date" name="date" className="form-control" value={formData.date} onChange={handlesChange} />
+
+            <div className="form-group flex-fill">
+                <input type="date" name="date" className="form-control" required value={formData.date} onChange={handlesChange} />
             </div>
 
-            <div className="form-group">
-                <select name="category" className='form-control' defaultValue={''} onChange={handlesChange}>
+            <div className="form-group flex-fill">
+                <select name="category" className='form-control' required value={formData.category} onChange={handlesChange}>
                     <option value=""></option>
                     <option value="Entertainment">Entertainment</option>
                     <option value="Income">Income</option>
@@ -68,16 +74,17 @@ export const TransationForm = ({ onSave }) => {
                 </select>
             </div>
 
-            <div className="form-group">
-                <input type="text" name="description" className="form-control" value={formData.description} onChange={handlesChange} />
+            <div className="form-group flex-fill">
+                <input type="text" name="description" className="form-control" required value={formData.description} onChange={handlesChange} />
             </div>
 
-            <div className="form-group">
-                <input type="number" name="amount" className="form-control" value={formData.amount} onChange={handlesChange} />
+            <div className="form-group flex-fill">
+                <input type="number" name="amount" className="form-control" required value={formData.amount} onChange={handlesChange} />
             </div>
 
-            <div className="form-group">
+            <div className="form-group d-flex gap-3">
                 <button type="submit" className='btn btn-primary'>Save Transaction</button>
+                <button type='button' className='btn btn-outline-primary' onClick={() => setFormData(defaultFields)}>Clear</button>
             </div>
 
 

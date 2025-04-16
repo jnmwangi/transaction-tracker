@@ -1,6 +1,23 @@
-@import "./node_modules/bootstrap/dist/css/bootstrap.css";
+@import "bootstrap/dist/css/bootstrap.css";
 
-body{
+html,
+body {
   /* background-color: red; */
-  height: 100dvh;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.sortUp::before {
+  content: '\02C4';
+  display: inline;
+  font-size: 24px;
+  padding: 0 5px;
+}
+
+.sortDown::before {
+  content: '\02C5';
+  display: inline;
+  font-size: 24px;
+  padding: 0 5px;
 }

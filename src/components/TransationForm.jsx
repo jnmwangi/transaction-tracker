@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 // import { UserContext } from './user.context'
 
 const defaultFields = {
-    id: Math.random().toString(16).substring(2),
     date: (new Date()).toISOString().split("T")[0],
     description: "",
     category: "",
@@ -34,7 +33,8 @@ export const TransationForm = ({ transaction, onSave }) => {
 
     // const [user] = useContext(userContext)
 
-    const [formData, setFormData] = useState(defaultFields)
+    const [formData, setFormData] = useState(defaultFields);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setFormData(transaction || defaultFields)
@@ -53,7 +53,23 @@ export const TransationForm = ({ transaction, onSave }) => {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        onSave(formData);
+
+        setLoading(true);
+
+        fetch("http://localhost:8080/transactions", {
+            method: transaction.id ? "PATCH" : "POST",
+            body: JSON.stringify(formData),
+            headers:{
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            onSave(data);
+            setLoading(false)
+        })
+
+        
         setFormData(defaultFields)
     }
 
@@ -83,7 +99,7 @@ export const TransationForm = ({ transaction, onSave }) => {
             </div>
 
             <div className="form-group d-flex gap-3">
-                <button type="submit" className='btn btn-primary'>Save Transaction</button>
+                <button type="submit" disabled={loading} className='btn btn-primary'>{ loading ? 'Wait...' : 'Save Transaction' }</button>
                 <button type='button' className='btn btn-outline-primary' onClick={() => setFormData(defaultFields)}>Clear</button>
             </div>
 

@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "./components/Nav"
 import { Search } from "./components/Search"
 import { Transactions } from "./components/Transactions"
 import { TransationForm } from "./components/TransationForm"
-import UserContextProvider from "./components/user.context";
-import { transactions as defaultTrasactions } from "./data.json";
-
 
 function App() {
 
-  const [transactions, setTrasactions] = useState(defaultTrasactions);
+  const [transactions, setTrasactions] = useState([]);
   const [selectedTrans, setSelectedTrans] = useState();
+
+  useEffect(() => {
+
+    fetch("http://localhost:8080/transactions", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data=>{
+      setTrasactions(data)
+    })
+
+  }, []);
 
   function handleSaveTransaction(newTransaction) {
 
@@ -29,6 +41,7 @@ function App() {
     const transactionIndex = transactions.findIndex(tr => tr.id === product.id);
     transactions.splice(transactionIndex, 1);
     setTrasactions([...transactions])
+    
   }
 
   function handleSearch(term) {

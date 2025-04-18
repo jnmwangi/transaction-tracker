@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Search } from '../components/Search'
 import { TransationForm } from '../components/TransationForm'
 import { Transactions } from '../components/Transactions'
+import { APIBaseURL } from "../config";
+import { Nav } from '../components/Nav';
 
 export const TransactionsPage = () => {
 
@@ -10,7 +12,7 @@ export const TransactionsPage = () => {
 
     useEffect(() => {
 
-        fetch("http://localhost:8080/transactions", {
+        fetch(`${APIBaseURL}/transactions`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -62,6 +64,7 @@ export const TransactionsPage = () => {
 
     return (
         <>
+            <Nav />
             <Search />
             <TransationForm onSave={handleSaveTransaction} transaction={selectedTrans} />
             <Transactions transactions={transactions}

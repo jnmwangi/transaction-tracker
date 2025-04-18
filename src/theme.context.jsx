@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-const defaultTheme = 'dark';
+const defaultTheme = 'light';
 export const ThemeContext = createContext(defaultTheme);
 export default function ThemeContextProvider({ children }) {
     const [theme, setTheme] = useState(defaultTheme);

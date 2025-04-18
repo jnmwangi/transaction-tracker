@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 // import { UserContext } from './user.context'
+import { APIBaseURL } from "../config";
 
 const defaultFields = {
     date: (new Date()).toISOString().split("T")[0],
@@ -56,20 +57,20 @@ export const TransationForm = ({ transaction, onSave }) => {
 
         setLoading(true);
 
-        fetch("http://localhost:8080/transactions", {
+        fetch(`${APIBaseURL}/transactions`, {
             method: transaction.id ? "PATCH" : "POST",
             body: JSON.stringify(formData),
-            headers:{
+            headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(response=>response.json())
-        .then(data=>{
-            onSave(data);
-            setLoading(false)
-        })
+            .then(response => response.json())
+            .then(data => {
+                onSave(data);
+                setLoading(false)
+            })
 
-        
+
         setFormData(defaultFields)
     }
 
@@ -99,7 +100,7 @@ export const TransationForm = ({ transaction, onSave }) => {
             </div>
 
             <div className="form-group d-flex gap-3">
-                <button type="submit" disabled={loading} className='btn btn-primary'>{ loading ? 'Wait...' : 'Save Transaction' }</button>
+                <button type="submit" disabled={loading} className='btn btn-primary'>{loading ? 'Wait...' : 'Save Transaction'}</button>
                 <button type='button' className='btn btn-outline-primary' onClick={() => setFormData(defaultFields)}>Clear</button>
             </div>
 

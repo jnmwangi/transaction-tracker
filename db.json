@@ -106,6 +106,19 @@
       "amount": "0234234"
     }
   ],
-  "users": [],
+  "users": [
+    {
+      "id": "7e2e",
+      "name": "Test",
+      "email": "email@test.com",
+      "password": "Testing"
+    },
+    {
+      "id": "c1e8",
+      "name": "Julius",
+      "email": "julius.mwangi@moringaschool.com",
+      "password": "Testing"
+    }
+  ],
   "roles": []
 }

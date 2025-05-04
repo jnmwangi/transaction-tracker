@@ -24,11 +24,11 @@ export const routes = createBrowserRouter([
                 element: <SignIn />
             },
             {
-                path: "/transactions",
+                path: "/tx",
                 element: <Protected />,
                 children: [
                     {
-                        path: "/transactions",
+                        path: "/tx",
                         element: <TransactionsPage />
                     }
                 ]

@@ -1,1 +1,1 @@
-export const APIBaseURL = 'http://localhost:8080'
+export const APIBaseURL = import.meta.env.VITE_APIENDPOINT

@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Search } from '../components/Search'
 import { TransationForm } from '../components/TransationForm'
 import { Transactions } from '../components/Transactions'
 import { APIBaseURL } from "../config";
 import { Nav } from '../components/Nav';
+import { UserContext } from '../user.context';
 
 export const TransactionsPage = () => {
 
     const [transactions, setTrasactions] = useState([]);
     const [selectedTrans, setSelectedTrans] = useState();
+    const [user] = useContext(UserContext);
 
     useEffect(() => {
 
-        fetch(`${APIBaseURL}/transactions`, {
-            method: "GET",
+        fetch(`${APIBaseURL}/transactions?user_id=${user.id}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -27,7 +28,7 @@ export const TransactionsPage = () => {
 
     function handleSaveTransaction(newTransaction) {
 
-        const transactionIndex = transactions.findIndex(tr => tr.id === newTransaction.id);
+        const transactionIndex = "id" in newTransaction ? transactions.findIndex(tr => tr.id === newTransaction.id) : -1;
 
         if (transactionIndex === -1) {
             setTrasactions([newTransaction, ...transactions]);
@@ -46,7 +47,9 @@ export const TransactionsPage = () => {
     }
 
     function handleSearch(term) {
-        // setTra
+        fetch(`${APIBaseURL}/transactions?description_like=${term}&user_id=${user.id}`)
+        .then(r=>r.json())
+        .then(setTrasactions)
     }
 
     function handleSort(by, dir = 'asc') {
@@ -60,17 +63,14 @@ export const TransactionsPage = () => {
         setTrasactions([...transactions]);
     }
 
-    console.log(selectedTrans)
-
     return (
-        <>
-            <Nav />
-            <Search />
+        <div className='h-100 d-flex flex-column gap-3 py-3'>
+            <Search onSearch={handleSearch} />
             <TransationForm onSave={handleSaveTransaction} transaction={selectedTrans} />
             <Transactions transactions={transactions}
                 onSelect={(tr) => setSelectedTrans({ ...tr })}
                 onDelete={handleDelete}
                 onSort={handleSort} />
-        </>
+        </div>
     )
 }

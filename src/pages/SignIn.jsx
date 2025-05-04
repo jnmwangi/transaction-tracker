@@ -36,7 +36,7 @@ export const SignIn = () => {
                     setUser(user);
                     sessionStorage.setItem("user", JSON.stringify(user));
                     alert("You have successfully signin");
-                    navigate("/transactions")
+                    navigate("/tx")
 
                 }
             })

@@ -39,7 +39,7 @@ export const Nav = () => {
 
                 {user !== null && <>
                     <li className="nav-item">
-                        <NavLink to="/transactions" className='nav-link'>Transactions</NavLink>
+                        <NavLink to="/tx" className='nav-link'>Transactions</NavLink>
                         {/* <a className="nav-link" href="#">Transactions</a> */}
                     </li>
                     <li className="nav-item">

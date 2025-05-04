@@ -21,7 +21,7 @@ export const TransactionsPage = () => {
         })
             .then(response => response.json())
             .then(data => {
-                setTrasactions(data)
+                setTrasactions(Object.keys(data).length ? data : [])
             })
 
     }, []);

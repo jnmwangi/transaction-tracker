@@ -4,7 +4,7 @@ import UserContextProvider from "./user.context"
 import { routes } from "./routes"
 function App() {
   return (
-    <div className={`container h-100 d-flex flex-column gap-3`}>
+    <div className={`container-md`}>
 
       <UserContextProvider>
         <RouterProvider router={routes} />

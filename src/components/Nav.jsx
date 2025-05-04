@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { ThemeContext } from '../theme.context'
 import { UserContext } from '../user.context';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const Nav = () => {
 
@@ -18,19 +18,19 @@ export const Nav = () => {
     }
 
     return (
-        <header className='bg-info p-2 d-flex justify-content-between align-items-center'>
-            <h1 className='text-center'>Bank Transactions</h1>
+        <header className={`bg-${theme === 'light' ? 'info' : 'dark text-light border-bottom border-secondary'} p-2 d-flex justify-content-between align-items-center`}>
+            <h1 className='me-auto'>Bank Transactions</h1>
 
             <ul className="nav">
-                <Link to="/" className='nav-link'>Home</Link>
+                <NavLink to="/" className='nav-link'>Home</NavLink>
 
                 {user == null && <>
                     <li className="nav-item">
-                        <Link to="/signup" className='nav-link'>Sign Up</Link>
+                        <NavLink to="/signup" className='nav-link'>Sign Up</NavLink>
                         {/* <a className="nav-link active" aria-current="page" href="#">Sign Up</a> */}
                     </li>
                     <li className="nav-item">
-                        <Link to="/signin" className='nav-link'>Sign In</Link>
+                        <NavLink to="/signin" className='nav-link'>Sign In</NavLink>
                         {/* <a className="nav-link" href="#">Sign In</a> */}
                     </li>
                 </>}
@@ -39,25 +39,22 @@ export const Nav = () => {
 
                 {user !== null && <>
                     <li className="nav-item">
-                        <Link to="/transactions" className='nav-link'>Transactions</Link>
+                        <NavLink to="/transactions" className='nav-link'>Transactions</NavLink>
                         {/* <a className="nav-link" href="#">Transactions</a> */}
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#" onClick={handleSignOut}>Sign Out</a>
                     </li>
                     <li className="nav-item">
-                        {user.name}
+                        <NavLink to={"/profile"} className={'nav-link'}>{user.name}</NavLink>
                     </li>
                 </>}
 
-                <li className="nav-item">
-                    <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" checked={theme === 'dark'} value={theme} onChange={handleChange} />
-                        <label className="form-check-label" htmlFor="switchCheckChecked">{theme}</label>
-                    </div>
-                </li>
             </ul>
 
+            <button className="btn" onClick={()=>setTheme(theme === 'light' ? 'dark' : 'light')}>
+                <i className={`bi bi-${theme === 'light' ?'moon-stars':'sun'}`}></i>
+            </button>
 
         </header>
     )
